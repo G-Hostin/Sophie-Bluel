@@ -467,21 +467,26 @@ button {
   z-index: 999;
 }
 
-.modal-title {
+.modal-title h3 {
   font-family: "Work Sans";
   font-weight: 400;
   font-size: 30px;
+  margin: 50px 0;
 }
 
 .modal-body {
   background-color: #ffffff;
+  max-height: 80vh;
   width: 55%;
-  max-height: 70%;
-  padding: 20px;
   z-index: 1000;
+  border-radius: 10px;
+  overflow: auto;
+}
+
+#modalGallery {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   position: relative;
 }
@@ -489,14 +494,15 @@ button {
 .modal-closeBtn {
   width: fit-content;
   height: fit-content;
-
   position: absolute;
-  top: 10px;
-  right: 10px;
-
-  padding: 5px;
-
+  top: 30px;
+  right: 30px;
+  margin: 5px;
   cursor: pointer;
+}
+
+.modal-closeBtn i {
+  font-size: 25px;
 }
 
 #addPhotoBtn {
@@ -509,8 +515,213 @@ button {
   border-radius: 60px;
   cursor: pointer;
   height: 37px;
-  font-size: 1em;
+  font-size: 1.3em;
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-  padding: 0px 30px;
+  padding: 5px 50px;
+}
+
+.modal-works {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 colonnes égales */
+  row-gap: 30px;
+  column-gap: 10px;
+  width: 70%;
+}
+
+.modal-addBtn {
+  padding: 30px 0;
+}
+
+.modal-works::after {
+  content: "";
+  display: block;
+  grid-column: 1 / -1; /* S'etend de la premiere ligne à la derniere */
+  border-top: 1px solid #b3b3b3;
+  margin-top: 50px;
+}
+
+.modal-works div {
+  margin: 0;
+  padding: 0;
+}
+
+.modal-works img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.work-element {
+  position: relative;
+}
+
+.delete-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 25px;
+  height: 25px;
+  background-color: black;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.delete-btn i {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* --- MODALE 2 --- */
+
+.hidden {
+  display: none;
+}
+
+#modalForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+}
+
+.upload-box {
+  width: 100%;
+  background-color: #e8f1f6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  border-radius: 10px;
+  position: relative;
+  box-sizing: border-box;
+  padding: 30px 0;
+}
+
+.upload-box i {
+  font-size: 100px;
+  color: #cbd6dc;
+}
+
+.upload-box .textBtnUpload p {
+  font-size: 18px;
+  color: #306685;
+  text-align: center;
+  margin-top: 10px;
+  padding: 15px 30px;
+  background-color: #cbd6dc;
+  border-radius: 50px;
+}
+
+.upload-box p {
+  font-size: 12px;
+  color: #444444;
+  text-align: center;
+  margin-top: 10px;
+}
+
+input[type="file"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+#photoForm label {
+  font-size: 18px;
+  color: #3d3d3d;
+  margin-top: 20px;
+  width: 100%;
+  display: block;
+}
+
+#photoForm input[type="text"],
+select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  font-size: 20px;
+  box-sizing: border-box;
+  border: none;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Séparateur entre les sections */
+.modal-separator {
+  width: 100%;
+  height: 1px;
+  background-color: #ccc;
+  margin-top: 50px;
+}
+
+/* Bouton Valider */
+.uploadBtn {
+  width: 100%;
+  text-align: center;
+  margin: 50px 0;
+}
+
+.uploadBtn button {
+  box-sizing: border-box;
+}
+
+#validateBtn {
+  font-family: "Syne";
+  font-weight: 700;
+  width: 50%;
+  color: #fffef8;
+  background-color: #1d6154;
+  margin: 0em 0.5em 2em 0.5em;
+  text-align: center;
+  border-radius: 60px;
+  cursor: pointer;
+  font-size: 1.3em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  padding: 15px 50px;
+}
+
+#validateBtn:hover {
+  background-color: #155a47;
+}
+
+.modal-closeBtnForm {
+  width: fit-content;
+  height: fit-content;
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.modal-closeBtnForm i {
+  font-size: 25px;
+}
+
+.modal-previous {
+  width: fit-content;
+  height: fit-content;
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.modal-previous i {
+  font-size: 25px;
+}
+
+#photoForm {
+  width: 70%;
 }

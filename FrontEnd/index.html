@@ -85,10 +85,55 @@
     </footer>
     <div id="modalBox" class="modal" style="display: none">
       <div class="modal-body">
-        <div class="modal-closeBtn"><i class="fa-solid fa-xmark"></i></div>
-        <div class="modal-title"><h3>Galerie photo</h3></div>
-        <div class="modal-works"></div>
-        <button id="addPhotoBtn">Ajouter une photo</button>
+        <div id="modalGallery">
+          <div class="modal-closeBtn"><i class="fa-solid fa-xmark"></i></div>
+          <div class="modal-title"><h3>Galerie photo</h3></div>
+          <div class="modal-works"></div>
+          <div class="modal-addBtn">
+            <button id="addPhotoBtn">Ajouter une photo</button>
+          </div>
+        </div>
+
+        <div id="modalForm" class="hidden" style="display: none">
+          <div class="modal-previous">
+            <i class="fa-solid fa-arrow-left"></i>
+          </div>
+          <div class="modal-closeBtnForm">
+            <i class="fa-solid fa-xmark"></i>
+          </div>
+          <div class="modal-title"><h3>Ajout photo</h3></div>
+
+          <div id="photoForm">
+            <div class="upload-box">
+              <i class="fa-regular fa-image"></i>
+              <div class="textBtnUpload">
+                <p>+ Ajouter une photo</p>
+              </div>
+              <input
+                type="file"
+                id="fileInput"
+                accept="image/png, image/jpeg"
+              />
+              <p>jpg, png : 4mo max</p>
+            </div>
+
+            <label for="title">Titre</label>
+            <input type="text" id="title" name="title" required />
+
+            <label for="category">Catégorie</label>
+            <select id="category" name="category">
+              <option value="1">Catégorie 1</option>
+              <option value="2">Catégorie 2</option>
+              <option value="3">Catégorie 3</option>
+            </select>
+
+            <div class="modal-separator"></div>
+
+            <div class="uploadBtn">
+              <button type="submit" id="validateBtn">Valider</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </body>
