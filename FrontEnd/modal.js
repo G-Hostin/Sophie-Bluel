@@ -2,6 +2,9 @@ const editBtn = document.getElementById("edit-btn");
 const modal = document.getElementById("modalBox");
 const modalBody = document.querySelector(".modal-body");
 const closeBtn = document.querySelector(".modal-closeBtn");
+const modalTitle = document.querySelector(".modal-title");
+const modalWorks = document.querySelector(".modal-works");
+const addBtn = document.getElementById("addPhotoBtn");
 
 editBtn.addEventListener("click", (event) => {
   event.preventDefault();
@@ -15,7 +18,7 @@ closeBtn.addEventListener("click", () => {
 });
 
 modal.addEventListener("click", (event) => {
-  if (event.target.classList.contains("modal")) {
+  if (event.target === modal) {
     modal.style.display = "none";
     document.body.style.overflow = "auto";
   }
