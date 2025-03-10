@@ -9,6 +9,7 @@ const addBtn = document.getElementById("addPhotoBtn"); // Recupere le bouton pou
 const backBtn = document.querySelector(".modal-previous"); // Recupere l'icone de fleche pour revenir à la premiere modale
 const modalGallery = document.getElementById("modalGallery"); // Recupere la div qui contient la premiere modale
 const modalForm = document.getElementById("modalForm"); // Recupere la div qui contient la deuxieme modale
+const categorySelect = document.getElementById("category"); // Recupere le select de la liste déroulante
 
 editBtn.addEventListener("click", (event) => {
   // Ajoute un event listener pour le bouton modifier pour ouvrir la modale
@@ -70,6 +71,7 @@ addPhotoBtn.addEventListener("click", () => {
   // On ajoute un event listener au bouton Ajouter une photo de la modale
   modalGallery.style.display = "none"; // Au click, fait disparaitre la premiere modale (vue gallerie)
   modalForm.style.display = "flex"; // Toujours sur ce même click, fait apparaitre la deuxieme modale (formulaire)
+  displayCategoriesModal(); // Appelle la fonction qui fait apparaitre les catégories
 });
 
 backBtn.addEventListener("click", () => {
@@ -77,3 +79,22 @@ backBtn.addEventListener("click", () => {
   modalForm.style.display = "none"; // Au click, fait disparaitre la deuxieme modale (formulaire)
   modalGallery.style.display = "flex"; // Toujours sur ce même click, fait apparaitre la premiere modale (vue gallerie)
 });
+
+function displayCategoriesModal() {
+  // Fonction pour afficher les catégories dans la liste déroulante du form de la modale
+  categorySelect.innerHTML = ""; // Vide la liste déroulante
+
+  const defaultOption = document.createElement("option"); // Créé une option et stcoke dans defaultOption
+  defaultOption.value = ""; // La valeur de cette option est vide
+  defaultOption.disabled = true; // defaultOption ne peut pas être selectionée par l'utilisateur
+  defaultOption.selected = true; // Par defaut, c'est defaultOption qui est selectionnée
+  categorySelect.appendChild(defaultOption); // defaultOption devient un enfant de la liste déroulante
+
+  globalCategories.forEach((category) => {
+    // Parcours le tableau globalCategories
+    const option = document.createElement("option"); // Créé une option et le stocke dans option pour chaque catégorie
+    option.value = category.id; // La valeur de l'option correspond à l'id de la catégorie sur l'API
+    option.textContent = category.name; // Le texte de l'option correspond au nom de la catégorie
+    categorySelect.appendChild(option); // L'option créée devient l'enfant de la liste déroulante
+  });
+}

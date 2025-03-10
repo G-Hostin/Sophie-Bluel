@@ -1,4 +1,5 @@
 let globalWorks; // VAriable globale qui stocke les travaux
+let globalCategories;
 
 async function fetchWorks() {
   const response = await fetch("http://localhost:5678/api/works"); // API backend/works swagger
@@ -31,8 +32,8 @@ function displayWorks() {
 async function fetchCategories() {
   const response = await fetch("http://localhost:5678/api/categories"); //Appel API pour récupérer les catégories (Swagger)
   const categoriesList = await response.json(); // Passe la réponse de l'API au format json et est stockée dans categoriesList
-  const categories = categoriesList.map((work) => work.name); // .map va parcourir le tableau categoriesList et créer un nouveau tableau contenant les "name" de chaque categorie
-  return ["Tous", ...categories]; // Création d'un tableau avec "Tous" en premier, puis ...categories (opérateur spread) va "étaler" les éléments contenus dans categories
+  globalCategories = categoriesList; // stocke le tableau categoriesList dans une variable globale pour s'en resservir ailleur (modal.js)
+  return ["Tous", ...globalCategories.map((category) => category.name)]; // Création d'un tableau avec "Tous" en premier, puis ...categories (opérateur spread) va "étaler" les éléments contenus dans categories + // .map va parcourir la variable globalCategories et créer un nouveau tableau contenant les "name" de chaque categorie
 }
 
 // Génère les boutons de filtre
