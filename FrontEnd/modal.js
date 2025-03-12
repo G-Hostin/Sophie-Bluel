@@ -63,9 +63,10 @@ function displayWorksModal() {
         <i class="fa-solid fa-trash-can"></i>
       </div>
     `; // Ajoute l'url de l'image et la balise alt dans la div workElement créée pour chaque travail + une div qui contient l'icone de poubelle
-    let deleteBtn = workElement.querySelector(".delete-btn");
+    let deleteBtn = workElement.querySelector(".delete-btn"); // recupere l'icone poubelle pour chaque travail
     deleteBtn.addEventListener("click", async () => {
-      await deleteWork(work.id, workElement);
+      // ajoute un event listener sur l'icone
+      await deleteWork(work.id, workElement); // appelle la fonction de suppression en prenant en paramètre l'id de chaque travail et la div qui contient les elements
     });
     modalWorks.appendChild(workElement); // La div créée devient l'enfant du container qui doit contenir les travaux dans la modale
   });
@@ -102,57 +103,63 @@ function displayCategoriesModal() {
     categorySelect.appendChild(option); // L'option créée devient l'enfant de la liste déroulante
   });
 }
-
+// Fonction qui gere les erreurs de token
 function tokenError(message = "Veuillez vous reconnecter") {
-  sessionStorage.setItem("errorMessage", message);
-  window.location.href = "login.html";
+  // prend en parametre message = "Veuillez vous reconnecter"
+  sessionStorage.setItem("errorMessage", message); // créer un item dans le sessionStorage avec la clé errorMessage et la valeur message
+  window.location.href = "login.html"; // redirige directement sur la page de login
 }
-
+// Fonction pour afficher les message d'erreur dans la modale
 function showErrorMessage(message) {
-  errorMessageContainer = document.querySelector(".modal-error");
-  errorMessageContainer.innerHTML = "";
-  errorMessageContainer.classList.add("error-message");
-  modalTitle.appendChild(errorMessageContainer);
-  const errorMessage = document.createElement("p");
-  errorMessage.classList.add("error-text");
-  errorMessage.innerText = message;
-  errorMessageContainer.appendChild(errorMessage);
+  // prend en paramètre le message a afficher
+  errorMessageContainer = document.querySelector(".modal-error"); // recupere la div modal-error et la stocke dans errorMessageContainer
+  errorMessageContainer.innerHTML = ""; // vide la div pour eviter d'afficher plusieurs fois le message
+  errorMessageContainer.classList.add("error-message"); // ajoute la classe error-message a la div
+  const errorMessage = document.createElement("p"); // Créé une balise p et la stocke dans errorMessage
+  errorMessage.classList.add("error-text"); // ajoute la classe error-text à la balise p
+  errorMessage.innerText = message; // ajoute le message (en paramètre) dans la balise p
+  errorMessageContainer.appendChild(errorMessage); // la balise p devient l'enfant de la div errorMessageContainer
 }
-
+// Fonction qui supprime les travaux
 async function deleteWork(workId, workElement) {
-  const token = localStorage.getItem("token");
+  // prend en paramètre l'id de chaque travail et la div qui contient l'image et l'icone
+  const token = localStorage.getItem("token"); // recupere le token dans le localStorage
 
   if (!token) {
-    tokenError();
+    // si il n'y a pas de token
+    tokenError(); // Appel de la fonction de gestion des erreurs de token
     return;
   }
 
   const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
-    method: "DELETE",
+    // appel api avec le work.id de chaque work
+    method: "DELETE", // supression
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`, // header avec le token pour l'autorisation
       "Content-Type": "application/json",
     },
   });
-  switch (response.status) {
-    case 200:
-    case 204:
+  switch (
+    response.status // en fonction du status de la reponse API
+  ) {
+    case 200: // Element supprimé
+    case 204: // Element supprimé et l'API ne renvoie rien
       workElement.remove(); // supprime la div du DOM
       globalWorks = globalWorks.filter((work) => work.id !== workId); // globalWorks se met a jour avec un nouveau tableau qui doit passer le test : work.id doit être différent de workId (=work.id de l'event listener) sinon il est supprimé
       displayWorks(); // Met a jour l'affichage de la galerie principale
       break;
 
-    case 401:
-      tokenError();
+    case 401: // le token n'est plus bon/ probleme d'autorisation
+      tokenError(); // Appel la fonction de gestion des erreurs de token
       break;
 
-    case 500:
-      showErrorMessage("Erreur serveur : impossible de supprimer le projet.");
+    case 500: // Probleme coté serveur
+      showErrorMessage("Erreur serveur : impossible de supprimer le projet."); // Appel la fonction d'affichage des messages d'erreur dans la modale avec en parametre le message "Erreur serveur : impossible de supprimer le projet."
       break;
 
-    default:
+    default: // Les autres erreurs
       showErrorMessage(
-        `Erreur inconnue : ${response.status}. Veuillez réessayer`
+        `Erreur inconnue : ${response.status}. Veuillez réessayer` // Appel la fonction d'affichage des messages d'erreur dans la modale avec en parametre le message "Erreur inconnue : ${response.status}. Veuillez réessayer"
       );
   }
 }
