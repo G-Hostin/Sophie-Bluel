@@ -12,6 +12,7 @@ async function fetchWorks() {
 
 function displayWorks() {
   const gallery = document.querySelector(".gallery"); // Sélectionne l'élément qui contient la galerie
+  gallery.innerHTML = ""; // Vide la gallery avant d'y ajouter les éléments
 
   globalWorks.forEach((work) => {
     // Equivalent d'une boucle for et crée un élément HTML pour chaque work (work = globalWorks[i])

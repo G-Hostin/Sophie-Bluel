@@ -467,6 +467,12 @@ button {
   z-index: 999;
 }
 
+.modal-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .modal-title h3 {
   font-family: "Work Sans";
   font-weight: 400;

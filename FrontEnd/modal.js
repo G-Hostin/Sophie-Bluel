@@ -63,6 +63,10 @@ function displayWorksModal() {
         <i class="fa-solid fa-trash-can"></i>
       </div>
     `; // Ajoute l'url de l'image et la balise alt dans la div workElement créée pour chaque travail + une div qui contient l'icone de poubelle
+    let deleteBtn = workElement.querySelector(".delete-btn");
+    deleteBtn.addEventListener("click", async () => {
+      await deleteWork(work.id, workElement);
+    });
     modalWorks.appendChild(workElement); // La div créée devient l'enfant du container qui doit contenir les travaux dans la modale
   });
 }
@@ -84,7 +88,7 @@ function displayCategoriesModal() {
   // Fonction pour afficher les catégories dans la liste déroulante du form de la modale
   categorySelect.innerHTML = ""; // Vide la liste déroulante
 
-  const defaultOption = document.createElement("option"); // Créé une option et stcoke dans defaultOption
+  const defaultOption = document.createElement("option"); // Créé une option et stoke dans defaultOption
   defaultOption.value = ""; // La valeur de cette option est vide
   defaultOption.disabled = true; // defaultOption ne peut pas être selectionée par l'utilisateur
   defaultOption.selected = true; // Par defaut, c'est defaultOption qui est selectionnée
@@ -97,4 +101,58 @@ function displayCategoriesModal() {
     option.textContent = category.name; // Le texte de l'option correspond au nom de la catégorie
     categorySelect.appendChild(option); // L'option créée devient l'enfant de la liste déroulante
   });
+}
+
+function tokenError(message = "Veuillez vous reconnecter") {
+  sessionStorage.setItem("errorMessage", message);
+  window.location.href = "login.html";
+}
+
+function showErrorMessage(message) {
+  errorMessageContainer = document.querySelector(".modal-error");
+  errorMessageContainer.innerHTML = "";
+  errorMessageContainer.classList.add("error-message");
+  modalTitle.appendChild(errorMessageContainer);
+  const errorMessage = document.createElement("p");
+  errorMessage.classList.add("error-text");
+  errorMessage.innerText = message;
+  errorMessageContainer.appendChild(errorMessage);
+}
+
+async function deleteWork(workId, workElement) {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    tokenError();
+    return;
+  }
+
+  const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+  switch (response.status) {
+    case 200:
+    case 204:
+      workElement.remove(); // supprime la div du DOM
+      globalWorks = globalWorks.filter((work) => work.id !== workId); // globalWorks se met a jour avec un nouveau tableau qui doit passer le test : work.id doit être différent de workId (=work.id de l'event listener) sinon il est supprimé
+      displayWorks(); // Met a jour l'affichage de la galerie principale
+      break;
+
+    case 401:
+      tokenError();
+      break;
+
+    case 500:
+      showErrorMessage("Erreur serveur : impossible de supprimer le projet.");
+      break;
+
+    default:
+      showErrorMessage(
+        `Erreur inconnue : ${response.status}. Veuillez réessayer`
+      );
+  }
 }
