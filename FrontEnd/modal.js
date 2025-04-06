@@ -87,6 +87,7 @@ addPhotoBtn.addEventListener("click", () => {
   // On ajoute un event listener au bouton Ajouter une photo de la modale
   modalGallery.style.display = "none"; // Au click, fait disparaitre la premiere modale (vue gallerie)
   modalForm.style.display = "flex"; // Toujours sur ce même click, fait apparaitre la deuxieme modale (formulaire)
+  resetForm();
   displayCategoriesModal(); // Appelle la fonction qui fait apparaitre les catégories
 });
 
@@ -159,6 +160,8 @@ async function deleteWork(workId, workElement) {
       workElement.remove(); // supprime la div du DOM
       globalWorks = globalWorks.filter((work) => work.id !== workId); // globalWorks se met a jour avec un nouveau tableau qui doit passer le test : work.id doit être différent de workId (=work.id de l'event listener) sinon il est supprimé
       displayWorks(); // Met a jour l'affichage de la galerie principale
+      modal.style.display = "none";
+      document.body.style.overflow = "auto";
       break;
 
     case 401: // le token n'est plus bon/ probleme d'autorisation
@@ -265,6 +268,8 @@ photoForm.addEventListener("submit", async (event) => {
     resetForm();
 
     showSuccessMessage("Projet ajouté avec succès !");
+    modal.style.display = "none";
+    document.body.style.overflow = "auto";
   } else {
     switch (response.status) {
       case 400:

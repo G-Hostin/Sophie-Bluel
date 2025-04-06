@@ -1,4 +1,5 @@
 const loginForm = document.getElementById("login"); // Stocke le formulaire dans une variable
+const token = window.localStorage.getItem("token");
 
 document.addEventListener("DOMContentLoaded", () => {
   const errorMessage = sessionStorage.getItem("errorMessage");
@@ -12,6 +13,10 @@ document.addEventListener("DOMContentLoaded", () => {
     sessionStorage.removeItem("errorMessage"); // supprime le message d'erreur du sessionStorage une fois qu'il a été affiché
   }
 });
+
+if (token) {
+  window.location.href = "index.html";
+}
 
 loginForm.addEventListener("submit", async (event) => {
   // Ajout d'un event listener sur le formulaire au moment du submit (async car il va y avoir un post API)
